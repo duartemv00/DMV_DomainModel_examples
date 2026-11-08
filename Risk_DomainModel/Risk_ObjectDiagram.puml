@@ -1,0 +1,51 @@
+@startuml Risk
+
+skinparam style strictum1
+skinparam DefaultFontName Arial
+skinparam DefaultFontSize 16
+skinparam DefaultFontStyle bold
+skinparam ArrowThickness 2.2
+skinparam ArrowColor #gray
+hide empty members
+
+
+object "Player" as Player
+object "Dice" as Dice
+object "Game" as Game
+object "Board" as Board
+object "Country" as Country 
+object "Occupation" as Occupation
+object "Country Types" as CountryTypes {
+    Spain, France, Greece
+}
+
+
+' Each game should be played on the board '
+Game "1" --> "1" Board : "Is-played-ON"
+
+' Each game is played with a set of 5 dice '
+Game "1" --> "5" Dice : "Is-Played-WITH"
+
+' Each game can be played by 2 to 6 players '
+Game "1" --> "2..6" Player : "Plays"
+
+Player --> "1,2,3" Dice : "Throws"
+
+' The board contains 42 countries '
+Board "1" --> "42" Country : "Contains"
+
+Country --> CountryTypes : "For example"
+
+' Each country can be next to n countries '
+Country "1" --> "*" Country : "Is-Neighbor-To"
+
+' Each Player controls n countries '
+Player "1" --> "*" Country : "Controls"
+
+Player --> Occupation : "Uses"
+
+Occupation --> Country : "To-win"
+
+
+
+@enduml

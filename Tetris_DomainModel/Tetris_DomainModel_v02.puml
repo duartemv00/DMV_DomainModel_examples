@@ -1,0 +1,44 @@
+@startuml Tetris
+
+class "Player" as Player {
+    Piece ownedPiece
+    void rotatePiece()
+}
+
+class "Cell" as Cell {
+    x : int
+    y : int
+}
+
+class "Piece" as Piece {
+    int colorId
+    int rotation
+}
+
+class "Game" as Game {
+    int score
+}
+
+' The accumulation of Cells, that acts as a board'
+class "Pile" as Pile {
+    int height
+    nCells{int, int}
+}
+
+
+Player "1" *-- "1" Game : "Plays" >
+Player "1" *-- "1" Piece : "Controls" >
+
+Piece "1" -- "1" Pile : "Is-placed-on" >
+
+Game "1" *-- "1" Pile : "Checks-On" >
+
+(Piece, Pile) .. PieceToCell
+
+class PieceToCell {
+}
+
+Pile "1" *- "*" Cell : "Contains" >
+
+
+@enduml

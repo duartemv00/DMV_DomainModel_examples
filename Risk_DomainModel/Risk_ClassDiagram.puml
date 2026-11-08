@@ -1,0 +1,55 @@
+@startuml Risk
+
+skinparam style strictum1
+skinparam DefaultFontName Arial
+skinparam DefaultFontSize 16
+skinparam DefaultFontStyle bold
+skinparam ArrowThickness 2.2
+skinparam ArrowColor #gray
+hide empty members
+
+
+class "Player" as Player {
+    name : String
+}
+
+class "Dice" as Dice {
+    value : int
+}
+
+class "Game" as Game { }
+
+class "Board" as Board { }
+
+class "Country" as Country {
+    name : String
+}
+
+' Each game should be played on the board '
+Game "1" *-- "1" Board : "Is-Played-on" >
+
+' Each game is played with a set of 5 dice '
+Game "1" *-- "5" Dice : "Is-Played-WITH" >
+
+' Each game can be played by 2 to 6 players '
+Game "1" *-- "2..6" Player : "Plays" <
+
+Player "1" -- "1,2,3" Dice : "Throws" >
+
+' The board contains 42 countries '
+Board "1" *-- "42" Country : "Contains" >
+
+' Each country can be next to n countries '
+Country "1" -- "*" Country : "Is-Neighbor-To" >
+
+' Each Player controls n countries '
+Player "1" -- "*" Country : "Controls" >
+
+' Association class to represent the occupation of a country '
+(Player, Country) .. Occupation
+
+class Occupation {
+    nArmies : int
+}
+
+@enduml
